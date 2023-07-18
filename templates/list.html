@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+    <style>
+        td { width:200px; }
+    </style>
+</head>
+<body>
+    {% if not rsGC %}
+    <p class="text-center">내용이 없습니다! </p>
+    {% endif %}
+
+    <div style="margin:20px 0;">
+        {% for i in rsGC %}
+        <table border="1" align="center" width="70%" >
+            <tr>
+                <th align="center"> 날짜 </th>
+                <th align="center"> 상의 </th>
+                <th align="center"> 하의 </th>
+                <th align="center"> 교통수단 </th>
+                <th align="center"> 활동범위 </th>
+            </tr>
+            <tr style="border-top:solid 1px #dddddd;">
+                <td align="center">{{ i.date }} </td>
+                <td align="center">{{ i.top }}</td>
+                <td align="center">{{ i.bottom }} </td>
+                <td align="center">{{ i.vehicle }} </td>
+                <td align="center">{{ i.inout }} </td>
+            </tr>
+        </table>
+        {% endfor %}
+    </div>
+</body>
+</html>
