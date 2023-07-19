@@ -23,3 +23,21 @@ def list(request):
     return render(request, 'list.html', {
         'rsGC': rsGC
     })
+
+def list_db(request):
+    rsGC = GC.objects.all()
+
+    values_list = []
+
+    for item in rsGC:
+        temp_list = []
+        temp_list.append(item.date)
+        temp_list.append(item.top)
+        temp_list.append(item.bottom)
+        temp_list.append(item.vehicle)
+        temp_list.append(item.inout)
+        values_list.append(temp_list)
+
+    print(values_list)
+
+    return render(request, 'list.html')
