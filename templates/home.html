@@ -4,8 +4,6 @@
         <title>옷 추천</title>
         <style>
             #form {width:100%;}
-            #form_input {position:absolute; left:400px}
-            #form_recommend {position:absolute; right:400px}
         </style>
         <script>
             function validateForm() {
@@ -31,6 +29,7 @@
         </center>
 
         <br><br>
+        <center>
         <div id="form">
             <div id="form_input">
                 <label>
@@ -92,15 +91,7 @@
                     </script>
                 {% endif %}
             </div>
-
-            <div id="form_recommend">
-                <p> <h3> 오늘의 날씨 </h3> api 값 받아오기 </p>
-                <br><br>
-                <p> <strong> 오늘의 추천 </strong> <br><br>
-                    상의: 추천 값 받아오기 <br>
-                    하의: 추천 값 받아오기 <br>
-                </p>
-            </div>
         </div>
+        </center>
     </body>
 </html>

@@ -2,6 +2,13 @@ from django.shortcuts import render, redirect
 from getclothes.models import GC
 
 def home(request):
+    submit_count = request.session.get('submit_count', 0)
+    success = False
+
+    row_count = GC.get_row_count()
+    if row_count >= 10:
+        return redirect('recommend')
+
     if request.method == 'POST':
         date = request.POST.get('date')
         top = request.POST.get('top')
@@ -13,9 +20,7 @@ def home(request):
 
         success = True
 
-        return render(request, 'home.html', {'success':success})
-
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'success': success})
 
 def list(request):
     rsGC = GC.objects.all()
@@ -41,3 +46,6 @@ def list_db(request):
     print(values_list)
 
     return render(request, 'list.html')
+
+def recommend(request):
+    return render(request, 'recommend.html')

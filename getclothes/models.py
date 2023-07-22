@@ -8,6 +8,10 @@ class GC(models.Model):
     vehicle = models.IntegerField(db_column='vehicle')
     inout = models.IntegerField(db_column='inout')
 
+    @classmethod
+    def get_row_count(cls):
+        return cls.objects.count()
+
     class Meta:
         managed = False
         db_table = 'get'
