@@ -24,22 +24,22 @@
         <center>
             <br> <b> <h1> 날씨 기반 의상 추천 </h1> </b>
             <hr>
-            <p> <a href="index.html"> 로그아웃 </a> </p>
-            <p> <a href="/list"> 지금까지의 목록 </a> </p>
         </center>
+
+        {% if not rsDetail %}
+        <p class="text-center">내용이 없습니다! </p>
+        {% endif %}
 
         <br><br>
         <center>
         <div id="form">
             <div id="form_input">
                 <label>
-                <form method="POST" id="board_clothes" action="/home" onsubmit="return validateForm();">
+                <form method="POST" id="board_clothes" action="/update" onsubmit="return validateForm();">
+                {% for i in rsDetail %}
                     {% csrf_token %}
                     날짜를 선택하세요: <br>
-                    <input type="date" name="date" id="date">
-                    <script>
-                        document.getElementById('date').value = new Date().toISOString().substring(0,10);
-                    </script>
+                    <input type="date" name="date" id="date" value="{{ i.date }}">
                     <p>
                         상의:
                         <select name="top" id="c_top">
@@ -82,7 +82,9 @@
                     <br>
                     <p>
                         <input type="submit" value="submit">
+                        <button onclick="location.href='/list'"> 목록 </button>
                     </p>
+                {% endfor %}
                 </form>
                 </label>
                 {% if success %}
