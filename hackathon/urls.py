@@ -19,6 +19,9 @@ from django.urls import path
 import hackathonapp.views
 from django.contrib.auth import views as auth_views
 from hackathonapp.views import weather_view
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +30,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('main/', hackathonapp.views.main, name='main'),  # 로그인 되었을 때 화면
     path('weather/', weather_view, name='weather'),
-]
+] 
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

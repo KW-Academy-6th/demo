@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django import forms
+from .models import ImageModel
 
 class UserForm(UserCreationForm):
 
@@ -13,6 +15,11 @@ class UserBaseForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = '__all__'
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = ImageModel
+        fields = ('image',)
 
 #회원가입폼
 class UserCreateForm(UserBaseForm):

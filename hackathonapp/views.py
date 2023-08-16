@@ -9,9 +9,16 @@ from django.shortcuts import render
 from .weather import crawl_weather_data 
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from .forms import ImageForm
+from django.shortcuts import render
+import os
+from django.conf import settings
+from .models import AwardImageUpload
+from .models import ImageModel, AwardImageUpload
+
 
 def weather_view(request):
-    # 크롤링한 데이터 가져오기
+# 크롤링한 데이터 가져오기
     temperature, humidity, personaltemp, third_element, UVdata3 = crawl_weather_data()
 
     # 템플릿에 데이터 전달
@@ -28,7 +35,7 @@ def weather_view(request):
 
 # Create your views here.
 def home(request):
-    temperature, humidity, personaltemp, third_element, UVdata3 = crawl_weather_data()
+    temperature, humidity, personaltemp, third_element, UVdata3, water, weather_icon, tshirts5, tshirts10, tshirts8, tshirts2 = crawl_weather_data()
 
     # 템플릿에 데이터 전달
     context = {
@@ -36,7 +43,13 @@ def home(request):
         'humidity': humidity,
         'personaltemp': personaltemp,
         'third_element': third_element,
-        'UVdata3':UVdata3
+        'UVdata3':UVdata3,
+        'water':water,
+        'weather_icon':weather_icon,
+        'tshirts5':tshirts5,
+        'tshirts10':tshirts10,
+        'tshirts8':tshirts8,
+        'tshirts2':tshirts2,
     }
 
     return render(request, 'main.html', context)
@@ -67,3 +80,32 @@ def signup(request):
         form = UserForm()
     return render(request, 'signup2.html', {'form': form})
 
+def display_images(request):
+    image_dir = os.path.join(settings.MEDIA_ROOT, 'images')
+    image_files = [f for f in os.listdir(image_dir) if f.endswith('.jpg') or f.endswith('.png')]  # 이미지 확장자에 맞게 수정
+
+    return render(request, 'display_images.html', {'image_files': image_files})
+
+def about_me(request):
+
+    award_image = AwardImageUpload.objects.all()
+
+    return render(
+        request,
+        'templates/main.html',
+        {
+            'award_image': award_image
+        }
+    )
+
+def display_image(request):
+    # ImageModel에서 이미지 인스턴스 조회
+    image_instance = ImageModel.objects.first()
+
+    # AwardImageUpload에서 이미지 인스턴스 조회
+    award_image_instance = AwardImageUpload.objects.first()
+
+    return render(request, 'main.html', {
+        'image_instance': image_instance,
+        'award_image_instance': award_image_instance,
+    })
