@@ -7,6 +7,12 @@ class GC(models.Model):
     bottom = models.CharField(db_column='bottom', max_length=255)
     vehicle = models.IntegerField(db_column='vehicle')
     inout = models.IntegerField(db_column='inout')
+    high = models.FloatField(db_column='high')
+    low = models.FloatField(db_column='low')
+    now = models.FloatField(db_column='now')
+    hum = models.FloatField(db_column='hum')
+    rain = models.FloatField(db_column='rain')
+    prob = models.FloatField(db_column='prob')
 
     @classmethod
     def get_row_count(cls):
