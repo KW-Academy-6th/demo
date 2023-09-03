@@ -10,6 +10,8 @@ from .forms import UserCreateForm, SingUpForm,UserForm
 from .models import GC
 from forecast import forecast# 날씨정보를 저장하기위한 기상청 api
 from weather import crawl_weather_data
+from ai.useAI import ClothingRecommendationModel
+
 # Create your views here.
 def home(request):
      return  render(request,'index.html')
@@ -116,8 +118,20 @@ def recommend(request):
         'tshirts8':tshirts8,
         'tshirts2':tshirts2,
     }
-
-    return render(request, 'recommend.html')
+    
+    #ai 사용
+    if request.method == 'POST':
+        model = ClothingRecommendationModel()
+        model.retrain_model(...) # 학습을 시킬 데이터 입력(리스트 형태)
+        input_data = [...]  # 예측에 사용할 데이터 입력 (리스트 형태)
+        tops, bottoms = model.get_clothing_recommendation(input_data)
+        
+        # 예측 결과를 템플릿에 전달합니다.
+        return render(request, 'recommend.html', {'tops': tops, 'bottoms': bottoms})
+    else:
+        return render(request, 'recommend.html')
+    
+    
 def re_home(request):
     success = False
 
