@@ -45,7 +45,7 @@ def main(request):
             now=api_data['TMP'],
             hum=api_data['REH'],
             rain=api_data['PTY'],
-            prob=api_data['pop'],
+            prob=api_data['pop'], # 날씨 데이터 받아오기
         )
 
         success = True
@@ -131,6 +131,10 @@ def recommend(request):
     
     #ai 사용
     if request.method == 'POST':
+        vehicle = request.POST.get('vehicle')
+        inout = request.POST.get('inout')
+        api_data = forecast()
+        
         model = ClothingRecommendationModel()
         
         extracted_data = extract() #db 데이터 가져오기
@@ -140,14 +144,14 @@ def recommend(request):
             training_data.append(item[2:])
 
         model.retrain_model(training_data) # 모델 학습
-        input_data = [0,0,14, 11, 12, 50, 1, 1]  # 예측에 사용할 데이터 입력 (리스트 형태)
+        input_data = [vehicle, inout, api_data['TMX'], api_data['TMN'], api_data['TMP'], api_data['REH'], api_data['PTY'], api_data['pop']]  # 예측에 사용할 데이터 입력 (리스트 형태)
         tops, bottoms = model.get_clothing_recommendation(input_data)
         
         # 예측 결과를 템플릿에 전달합니다.
         return render(request, 'recommend.html', {'tops': tops, 'bottoms': bottoms}, context)
     else:
-        return render(request, 'recommend.html', context, {'tops': "hello", 'bottoms': "bye"})
-    
+        return render(request, 'recommend.html', context)
+ 
     
 def re_home(request):
     success = False
