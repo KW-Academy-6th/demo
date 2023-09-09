@@ -138,15 +138,15 @@ def recommend(request):
         #학습에 불필요한 데이터 제거 (예: 날짜)
         for item in extracted_data:
             training_data.append(item[2:])
-            
+
         model.retrain_model(training_data) # 모델 학습
-        input_data = [...]  # 예측에 사용할 데이터 입력 (리스트 형태)
+        input_data = [0,0,14, 11, 12, 50, 1, 1]  # 예측에 사용할 데이터 입력 (리스트 형태)
         tops, bottoms = model.get_clothing_recommendation(input_data)
         
         # 예측 결과를 템플릿에 전달합니다.
-        return render(request, 'recommend.html', {'tops': tops, 'bottoms': bottoms})
+        return render(request, 'recommend.html', {'tops': tops, 'bottoms': bottoms}, context)
     else:
-        return render(request, 'recommend.html')
+        return render(request, 'recommend.html', context, {'tops': "hello", 'bottoms': "bye"})
     
     
 def re_home(request):
