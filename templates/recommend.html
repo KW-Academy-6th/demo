@@ -119,10 +119,12 @@
 </form>
         </div>
         <br><br>
+        {% if tops %}
         <p> <strong> 오늘의 추천 </strong> <br><br>
             상의: {{ tops.0}}</br>
             하의: {{ bottoms.0}}</br>
         </p>
+        {% endif %}
     </div>
 </body>
 

@@ -81,8 +81,8 @@
     <form method="POST" id="board_clothes" action="/update" onsubmit="return validateForm();">
         {% for i in rsDetail %}
             {% csrf_token %}
-            <label>날짜를 선택하세요:</label>
-            <input type="date" name="date" id="date" value="{{ i.date }}">
+            <center> 날짜: {{ i.date }} </center>
+            <br><br>
             <label>상의:</label>
             <select name="top" id="c_top">
                 <option value="">상의 선택</option>
@@ -130,7 +130,7 @@
         <br>
         <p>
             <input type="submit" value="submit">
-            <button onclick="location.href='/list'"> 목록으로 </button>
+            <button> <a href="list"> 목록으로 </a> </button>
         {% endfor %}
     </form>
     {% if success %}
