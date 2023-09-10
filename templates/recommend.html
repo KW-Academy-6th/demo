@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>옷 추천</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F2F2F2;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header {
+            background-color: #333;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+        }
+
+        #nav {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #555;
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.3s;
+        }
+
+        #nav a:hover {
+            border-bottom: 2px solid #333;
+        }
+
+        #form {
+            max-width: 600px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        select, input[type="date"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <h1>날씨 기반 의상 추천</h1>
+    </div>
+
+    <div id="nav">
+        <a href="{% url 'home' %}">로그아웃</a>
+        <a href="{% url 'list' %}">지금까지의 목록</a>
+        <a href="{% url 're_home' %}">데이터 입력</a>
+    </div>
+
+    <div id="form">
+        {% if user.is_authenticated %}
+
+            {{ user.username }} 사용자님 안녕하세요
+        {% endif %}
+        <p> <h3> 오늘의 날씨 </h3> api 값 받아오기 </p>
+        <div id="form_recommend">
+            <p> <h3> 오늘의 날씨 </h3>
+
+            <p>오늘 날씨: <span id="third_element">{{ third_element }}</span></p>
+            <p>현재 온도: <span id="temperature">{{ temperature }}</span></p>
+            <p>체감 온도: <span id="personaltemp">{{ personaltemp }}</span></p>
+            <p>강수량   : <span id="water">{{ water }}</span></p>
+            <p>현재 습도: <span id="humidity">{{ humidity }}</span></p>
+            <p>자외선   : <span id="UVdata3">{{ UVdata3 }}</span></p>
+            </p>
+            <form method="POST">
+    {% csrf_token %}
+    <label>교통수단:</label>
+    <select name="vehicle" id="vehicle">
+        <option value="">교통수단 선택</option>
+        <option value="0"> 도보 </option>
+        <option value="1"> 버스/지하철 </option>
+        <option value="2"> 자가용 </option>
+    </select>
+
+    <label>활동범위:</label>
+    <select name="inout" id="inout">
+        <option value="">활동범위 선택</option>
+        <option value="0"> 실내 </option>
+        <option value="1"> 실외 </option>
+    </select>
+    <button type='submit'>제출</button>
+</form>
+        </div>
+        <br><br>
+        {% if tops %}
+        <p> <strong> 오늘의 추천 </strong> <br><br>
+            상의: {{ tops.0}}</br>
+            하의: {{ bottoms.0}}</br>
+        </p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
