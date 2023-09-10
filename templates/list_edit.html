@@ -82,6 +82,7 @@
         {% for i in rsDetail %}
             {% csrf_token %}
             <center> 날짜: {{ i.date }} </center>
+            <input type="hidden" name="date" value="{{ i.date }}">
             <br><br>
             <label>상의:</label>
             <select name="top" id="c_top">

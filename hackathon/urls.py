@@ -24,7 +24,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('list_edit', hackathonapp.views.list_edit, name="list_edit"), # 여기서는 안붙여야 작동되는데??
     path('re_home/', hackathonapp.views.re_home, name="re_home"),
-    path('list_db/', hackathonapp.views.list_db, name="list_db"), #????
     path('list/', hackathonapp.views.list,name="list"),
     path('admin', admin.site.urls),
     path('', hackathonapp.views.home,name='home'),#처음 접속했을때 로그인하는 기본화면

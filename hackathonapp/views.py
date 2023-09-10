@@ -60,31 +60,6 @@ def list(request):
         'rsGC': rsGC
     })
 
-def list_db(request):
-    rsGC = GC.objects.all()
-
-    values_list = []
-
-    for item in rsGC:
-        temp_list = []
-        temp_list.append(item.top)
-        temp_list.append(item.bottom)
-        temp_list.append(item.vehicle)
-        temp_list.append(item.inout)
-        temp_list.append(item.high)
-        temp_list.append(item.low)
-        temp_list.append(item.now)
-        temp_list.append(item.hum)
-        temp_list.append(item.rain)
-        temp_list.append(item.prob)
-        values_list.append(temp_list)
-
-    print(values_list)
-
-    return render(request, 'list.html')
-
-
-
 #signup2
 def signup(request):
     # POST 요청인 경우에는 화면에서 입력한 데이터로 사용자를 생성하고 GET 요청인 경우에는 회원가입 화면을 보여준다.
