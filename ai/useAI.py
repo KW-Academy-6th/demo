@@ -13,11 +13,13 @@ class ClothingRecommendationModel:
 
     #모델 학습 및 재학습
     def retrain_model(self, train_data):
+        print(train_data)
         features, labels_tops, labels_bottoms, [self.tops_enc, self.bottoms_enc] = load_data(train_data)
         self.clf_tops, self.clf_bottoms = train_model(features, labels_tops, labels_bottoms)
 
     #모델사용
     def get_clothing_recommendation(self, input_data):
+        print(input_data)
         if self.clf_tops is None or self.clf_bottoms is None:
             raise ValueError("The models have not been trained yet. Please train the models first.")
         if not isinstance(input_data, (list, np.ndarray)) or len(input_data) != EXPECTED_LENGTH:

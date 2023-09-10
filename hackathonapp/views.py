@@ -11,6 +11,7 @@ from .models import GC
 from forecast import forecast# 날씨정보를 저장하기위한 기상청 api
 from weather import crawl_weather_data
 from ai.useAI import ClothingRecommendationModel
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def home(request):
@@ -103,13 +104,14 @@ def signup(request):
 
 def extract():
     import sqlite3
-    conn = sqlite3.connect('../db.sqlite3')#파일 경로를 잘 지정하자 ....
+    conn = sqlite3.connect('./db.sqlite3')#파일 경로를 잘 지정하자 ....
     # 커서 획득
     c = conn.cursor()
     # c.execute("SELECT * FROM auth_user")
-    data=(list(c.execute("SELECT * FROM get").fetchall()))
+    data=(c.execute("SELECT * FROM get").fetchall())
     return data
 
+@csrf_exempt
 def recommend(request):
     # 크롤링한 데이터 가져오기
     temperature, humidity, personaltemp, third_element, UVdata3, water, weather_icon, tshirts5, tshirts10, tshirts8, tshirts2 = crawl_weather_data()
@@ -144,12 +146,13 @@ def recommend(request):
             training_data.append(item[2:])
 
         model.retrain_model(training_data) # 모델 학습
-        input_data = [vehicle, inout, api_data['TMX'], api_data['TMN'], api_data['TMP'], api_data['REH'], api_data['PTY'], api_data['pop']]  # 예측에 사용할 데이터 입력 (리스트 형태)
-        tops, bottoms = model.get_clothing_recommendation(input_data)
+        input_data = [int(vehicle), int(inout), api_data['TMX'], api_data['TMN'], api_data['TMP'], api_data['REH'], api_data['PTY'], api_data['pop']]  # 예측에 사용할 데이터 입력 (리스트 형태)
+        context['tops'], context['bottoms'] = model.get_clothing_recommendation(input_data)
+        
         
         # 예측 결과를 템플릿에 전달합니다.
-        return render(request, 'recommend.html', {'tops': tops, 'bottoms': bottoms}, context)
-    else:
+        return render(request, 'recommend.html', context)
+    elif request.method == 'GET':
         return render(request, 'recommend.html', context)
  
     
