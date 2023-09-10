@@ -182,7 +182,7 @@ def update(request):
         if top != "":
             gc.top = top
         if bottom != "":
-            gc.b_note = bottom
+            gc.bottom = bottom
         if vehicle != "":
             gc.vehicle = vehicle
         if inout != "":
